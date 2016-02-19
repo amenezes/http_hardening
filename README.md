@@ -49,4 +49,4 @@ x_xss_protection => '1; mode=block',
 
 <h4>Contact:</h4>
 author: alexandre menezes</br>
-twitter: @ale_menezes
+twitter: <a href="https://www.twitter.com/ale_menezes">@ale_menezes</a>
