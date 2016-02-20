@@ -12,24 +12,26 @@ $ sudo puppet module install amenezes-http_hardening
 * Basic usage on apache2 (httpd). This will enable mod_headers and set some secure http headers.
 <pre>
 <code>
-class { 'http_hardening': }
-include http_hardening::apache2
+class { 'http_hardening': 
+apache2 => true,
+}
 </code>
 </pre>
 
 * Basic usage on nginx. #TODO. This feature it's not available currently.
 <pre>
 <code>
-class { 'http_hardening': }
-include http_hardening::nginx
+class { 'http_hardening': 
+nginx => true,
+}
 </code>
 </pre>
 
 * Custom configuration on apache2 (htpd).
 <pre>
 <code>
-class { 'http_hardening': }
-include http_hardening::apache2 { 'apache2':
+class { 'http_hardening': 
+apache2 => true,
 x_frame_options  => 'SAMEORIGIN',
 x_xss_protection => '1; mode=block',
 }
@@ -39,8 +41,8 @@ x_xss_protection => '1; mode=block',
 * Custom configuration on nginx. #TODO This feature it's not available currently.
 <pre>
 <code>
-class { 'http_hardening': }
-include http_hardening::nginx { 'nginx':
+class { 'http_hardening': 
+nginx => true,
 x_frame_options  => 'SAMEORIGIN',
 x_xss_protection => '1; mode=block',
 }
