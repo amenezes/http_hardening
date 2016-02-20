@@ -1,0 +1,60 @@
+<% unless @x_content_type_options.empty? -%>
+#
+# Setting this header will prevent MSIE from interpreting files as something
+# else than declared by the content type in the HTTP headers.
+# Requires mod_headers to be enabled.
+#
+Header set X-Content-Type-Options: "<%= @x_content_type_options %>"
+<% end %>
+
+<% unless @x_frame_options.empty? -%>
+#
+# Setting this header will prevent other sites from embedding pages from this
+# site as frames. This defends against clickjacking attacks.
+# Requires mod_headers to be enabled.
+#
+Header set X-Frame-Options: "<%= @x_frame_options %>"
+<% end %>
+
+<% unless @content_security_policy.empty? -%>
+#
+# Content Security Policy requires careful tuning and precise definition
+# of the policy. If enabled, CSP has significant impact on the way browser
+# renders pages (e.g., inline JavaScript disabled by default and must be
+# explicitly allowed in policy). CSP prevents a wide range of attacks,
+# including Cross-site scripting and other cross-site injections.
+# Requires mod_headers to be enabled.
+#
+Header set Content-Security-Policy: "<%= @content_security_policy %>"
+<% end %>
+
+<% unless @x_xss_protection.empty? -%>
+#
+# This header enables the Cross-site scripting (XSS) filter built into most
+# recent web browsers.
+# Requires mod_headers to be enabled.
+#
+Header set X-XSS-Protection: "<%= @x_xss_protection %>"
+<% end %>
+
+<% unless @public_key_pins.empty? -%>
+#
+# The Public Key Pinning Extension for HTTP (HPKP) is a security header that
+# tells a web client to associate a specific cryptographic public key with a
+# certain web server to prevent MITM attacks with forged certificates.
+# Requires mod_headers to be enabled.
+#
+Header set X-XSS-Protection: "<%= @public_key_pins %>"
+<% end %>
+
+<% unless @strict_transport_security.empty? -%>
+#
+# HTTP Strict-Transport-Security (HSTS) enforces secure (HTTP over SSL/TLS)
+# connections to the server. This reduces impact of bugs in web applications
+# leaking session data through cookies and external links and defends against
+# Man-in-the-middle attacks. HSTS also disables the ability for user's to
+# ignore SSL negotiation warnings.
+# Requires mod_headers to be enabled.
+#
+Header set X-XSS-Protection: "<%= @strict_transport_security %>"
+<% end %>
