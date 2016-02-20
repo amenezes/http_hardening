@@ -1,5 +1,5 @@
 # http_hardening
-Puppet module to enable and manage http security headers.
+Puppet module to enable and manage secure http headers.
 
 <h4>Usage:</h4>
 <h5>Installation</h5>
