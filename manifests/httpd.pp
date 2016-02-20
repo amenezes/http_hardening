@@ -1,14 +1,12 @@
-class http_hardening::apache2 {
+class http_hardening::httpd {
 
   include http_hardening
 
   case $::osfamily {
-    'debian': {
-      $package   = 'apache2'
-      $base_file = "${package}.conf"
-      $base_dir  = "/etc/${package}"
+    'redhat': {
+      $package   = 'httpd'
       $headers   = 'headers.conf'
-      $headers_dir = "${base_dir}/conf-enabled"
+      $headers_dir = "/etc/${package}/conf.d"
     }
     default: {
       fail("Unsupported osfamily ${::osfamily}")
@@ -30,23 +28,13 @@ class http_hardening::apache2 {
   validate_string($strict_transport_security)
 
   file { "${headers}":
-    ensure  => file,
-    path    => "${headers_dir}/${headers}",
-    content => template("http_hardening/${headers}.erb"),
-    notify  => Exec['restart'],
-  }->
-  file_line { "${base_dir}/${base_file}":
-    path    => "${base_dir}/${base_file}",
-    line    => "Include ${headers_dir}/${headers}",
-  }
-
-  exec { "enable-${package}":
-    command => '/usr/sbin/a2enmod headers',
-    before  => File["${headers}"],
+    ensure    => file,
+    path      => "${headers_dir}/${headers}",
+    content   => template("http_hardening/${headers}.erb"),
+    notify   => Exec['restart'],
   }
 
   exec { 'restart':
-    command => "/usr/sbin/service $package restart",
-    require => Exec["enable-${package}"],
+    command   => "/usr/sbin/service $package restart",
   }
 }

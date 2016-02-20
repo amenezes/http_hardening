@@ -1,6 +1,7 @@
 class http_hardening (
   $apache2                        = $::http_hardening::params::apache2,
   $nginx                          = $::http_hardening::params::nginx,
+  $httpd                          = $::http_hardening::params::httpd,
   $x_frame_options                = $::http_hardening::params::x_frame_options,
   $x_content_type_options         = $::http_hardening::params::x_content_type_options,
   $content_security_policy        = $::http_hardening::params::content_security_policy,
@@ -12,6 +13,10 @@ class http_hardening (
   if $apache2 {
     validate_bool($apache2)
     include ::http_hardening::apache2
+  }
+  elsif $httpd {
+    validate_bool($httpd)
+    include ::http_hardening::httpd
   }
   elsif $nginx {
     validate_bool($nginx)

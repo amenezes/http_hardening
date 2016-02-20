@@ -9,7 +9,22 @@
 # Learn more about module testing here:
 # http://docs.puppetlabs.com/guides/tests_smoke.html
 #
-#include http_hardening
 class { 'http_hardening': }
   apache2 => true,
+}
+
+class { 'http_hardening':
+  apache2          => true,
+  x_frame_options  => 'SAMEORIGIN',
+  x_xss_protection => '1; mode=block',
+}
+
+class { 'http_hardening':
+  nginx => true,
+}
+
+class { 'http_hardening':
+  nginx            => true,
+  x_frame_options  => 'SAMEORIGIN',
+  x_xss_protection => '1; mode=block',
 }
