@@ -17,7 +17,6 @@ apache2 => true,
 }
 </code>
 </pre>
-
 <pre>
 <code>
 class { 'http_hardening': 
@@ -45,7 +44,6 @@ x_xss_protection => '1; mode=block',
 }
 </code>
 </pre>
-
 <pre>
 <code>
 class { 'http_hardening': 
