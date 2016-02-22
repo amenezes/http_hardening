@@ -1,6 +1,6 @@
 {
   "name": "amenezes-http_hardening",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "author": "amenezes",
   "license": "Apache License, Version 2.0",
   "summary": "Puppet module to enable and manage http secure headers.",
@@ -9,11 +9,9 @@
   "issues_url": "https://github.com/amenezes/http_hardening/issues",
   "tags": ["hardening", "http", "apache", "nginx"],
   "operatingsystem_support": [
-    {
-      "operatingsystem":"Debian",
-      "operatingsystem":"Ubuntu",
-      "operatingsystem":"RedHat"
-    }
+    { "operatingsystem":"Debian"}, { "operatingsystem":"Ubuntu" },
+    { "operatingsystem":"RedHat" }, { "operatingsystem":"CentOS" },
+    { "operatingsystem":"Fedora" }
   ],
   "dependencies": [
     {

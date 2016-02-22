@@ -9,6 +9,8 @@
 # Learn more about module testing here:
 # http://docs.puppetlabs.com/guides/tests_smoke.html
 #
+
+# Debian like distros
 class { 'http_hardening': }
   apache2 => true,
 }
@@ -19,6 +21,18 @@ class { 'http_hardening':
   x_xss_protection => '1; mode=block',
 }
 
+# RedHat like distros
+class { 'http_hardening': }
+  httpd => true,
+}
+
+class { 'http_hardening':
+  httpd          => true,
+  x_frame_options  => 'SAMEORIGIN',
+  x_xss_protection => '1; mode=block',
+}
+
+# Debian or RedHat like distros
 class { 'http_hardening':
   nginx => true,
 }

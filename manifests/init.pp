@@ -20,7 +20,7 @@ class http_hardening (
   }
   elsif $nginx {
     validate_bool($nginx)
-    fail("[*] web server not supported yet.")
+    include ::http_hardening::nginx
   }
   else {
     fail('[*] web server not supported!')

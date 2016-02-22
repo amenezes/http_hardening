@@ -1,12 +1,18 @@
-class http_hardening::httpd {
+class http_hardening::nginx {
 
   include http_hardening
 
+ # common params
+  $package             = 'nginx'
+  $headers             = 'headers.conf'
+  $headers_dir         = "/etc/${package}/conf.d"
+
   case $::osfamily {
     'redhat': {
-      $package   = 'httpd'
-      $headers   = 'headers.conf'
-      $headers_dir = "/etc/${package}/conf.d"
+      $srv_restart_command = "/usr/bin/systemctl restart ${package}"
+    }
+    'debian': {
+      $srv_restart_command = "/usr/bin/service ${package} restart"
     }
     default: {
       fail("Unsupported osfamily ${::osfamily}")
@@ -30,11 +36,11 @@ class http_hardening::httpd {
   file { "${headers}":
     ensure    => file,
     path      => "${headers_dir}/${headers}",
-    content   => template("http_hardening/apache-${headers}.erb"),
-    notify   => Exec['restart'],
+    content   => template("http_hardening/${package}-${headers}.erb"),
+    notify    => Exec['restart'],
   }
 
   exec { 'restart':
-    command   => "/usr/bin/systemctl restart $package",
+    command   => $srv_restart_command,
   }
 }

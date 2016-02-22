@@ -32,7 +32,7 @@ class http_hardening::apache2 {
   file { "${headers}":
     ensure  => file,
     path    => "${headers_dir}/${headers}",
-    content => template("http_hardening/${headers}.erb"),
+    content => template("http_hardening/apache-${headers}.erb"),
     notify  => Exec['restart'],
   }->
   file_line { "${base_dir}/${base_file}":
