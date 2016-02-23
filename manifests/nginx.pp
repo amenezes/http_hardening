@@ -3,13 +3,19 @@
 # This class manage secure headers on nginx instance.
 #
 # Parameters:
+# => local params (not modified)
+# - $package represents nginx service name
+# - $headers represents the name of file with secure http
+#   headers configuration
+# - headers_dir represents the base directory configuration
+#   of $headers file
+# => other Parameters see http_hardening::params class
 #
 # Actions:
 #   - Enable and manage secure headers on nginx instance
 #
 # Requires:
-#
-# Sample Usage:
+#   - Nginx web server up and running
 #
 class http_hardening::nginx {
 

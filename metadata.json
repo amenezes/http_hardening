@@ -7,7 +7,7 @@
   "source": "http://github.com/amenezes/http_hardening",
   "project_page": "http://github.com/amenezes/http_hardening",
   "issues_url": "https://github.com/amenezes/http_hardening/issues",
-  "tags": ["hardening", "http", "apache", "nginx"],
+  "tags": ["hardening", "http", "apache", "nginx", "httpd"],
   "operatingsystem_support": [
     { "operatingsystem":"Debian"}, { "operatingsystem":"Ubuntu" },
     { "operatingsystem":"RedHat" }, { "operatingsystem":"CentOS" },

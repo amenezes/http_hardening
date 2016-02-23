@@ -1,16 +1,18 @@
 # Class: http_hardening
 #
-# This class installs Apache
+# This class manage the inclusion of secure http headers in
+# web servers supported.
 #
 # Parameters:
+# => see http_hardening::params class
 #
 # Actions:
-#   - Install Apache
-#   - Manage Apache service
+#   - Manage the inclusion of secure http headers on:
+#   * apache2 / httpd
+#   * nginx
 #
 # Requires:
-#
-# Sample Usage:
+#   - Some web server supported up and running
 #
 class http_hardening (
   $apache2                        = $::http_hardening::params::apache2,

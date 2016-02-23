@@ -3,11 +3,12 @@
 # This class manages Apache parameters
 #
 # Parameters:
-# - The $apache2 represents option to enable and mange secure headers on
-#   Debian like distros
-# - The $httpd represents option to enable and mange secure headers on
-#   RedHat like distros
-# - The $nginx represents option to enable and manage secure headers on nginx
+# - The $apache2 represents option to enable and mange
+#   secure headers on Debian like distros
+# - The $httpd represents option to enable and mange
+#   secure headers on RedHat like distros
+# - The $nginx represents option to enable and manage
+#   secure headers on nginx
 # - The $x_frame_options
 # - The $x_content_type_options
 # - The $content_security_policy
@@ -17,9 +18,6 @@
 #
 # Actions:
 #
-# Requires:
-#
-# Sample Usage:
 #
 class http_hardening::params {
 
