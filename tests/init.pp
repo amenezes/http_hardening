@@ -27,7 +27,7 @@ class { 'http_hardening': }
 }
 
 class { 'http_hardening':
-  httpd          => true,
+  httpd            => true,
   x_frame_options  => 'SAMEORIGIN',
   x_xss_protection => '1; mode=block',
 }

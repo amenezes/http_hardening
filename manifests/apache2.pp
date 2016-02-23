@@ -1,13 +1,26 @@
+# Class: http_hardening::apache2
+#
+# This class manage secure headers on apache2 instance in Debian like distros.
+#
+# Parameters:
+#
+# Actions:
+#   - Enable and manage secure headers on apache2 instance
+#
+# Requires:
+#
+# Sample Usage:
+#
 class http_hardening::apache2 {
 
   include http_hardening
 
   case $::osfamily {
     'debian': {
-      $package   = 'apache2'
-      $base_file = "${package}.conf"
-      $base_dir  = "/etc/${package}"
-      $headers   = 'headers.conf'
+      $package     = 'apache2'
+      $base_file   = "${package}.conf"
+      $base_dir    = "/etc/${package}"
+      $headers     = 'headers.conf'
       $headers_dir = "${base_dir}/conf-enabled"
     }
     default: {
@@ -15,12 +28,12 @@ class http_hardening::apache2 {
     }
   }
 
-  $x_content_type_options     = "${http_hardening::x_content_type_options}"
-  $x_frame_options            = "${http_hardening::x_frame_options}"
-  $x_xss_protection           = "${http_hardening::x_xss_protection}"
-  $content_security_policy    = "${http_hardening::content_security_policy}"
-  $public_key_pins            = "${http_hardening::params::public_key_pins}"
-  $strict_transport_security  = "${http_hardening::params::strict_transport_security}"
+  $x_content_type_options     = $http_hardening::x_content_type_options
+  $x_frame_options            = $http_hardening::x_frame_options
+  $x_xss_protection           = $http_hardening::x_xss_protection
+  $content_security_policy    = $http_hardening::content_security_policy
+  $public_key_pins            = $http_hardening::params::public_key_pins
+  $strict_transport_security  = $http_hardening::params::strict_transport_security
 
   validate_string($x_content_type_options)
   validate_string($x_frame_options)
@@ -29,15 +42,15 @@ class http_hardening::apache2 {
   validate_string($public_key_pins)
   validate_string($strict_transport_security)
 
-  file { "${headers}":
+  file { $headers:
     ensure  => file,
     path    => "${headers_dir}/${headers}",
     content => template("http_hardening/apache-${headers}.erb"),
     notify  => Exec['restart'],
   }->
   file_line { "${base_dir}/${base_file}":
-    path    => "${base_dir}/${base_file}",
-    line    => "Include ${headers_dir}/${headers}",
+    path => "${base_dir}/${base_file}",
+    line => "Include ${headers_dir}/${headers}",
   }
 
   exec { "enable-${package}":
@@ -46,7 +59,7 @@ class http_hardening::apache2 {
   }
 
   exec { 'restart':
-    command => "/usr/sbin/service $package restart",
+    command => "/usr/sbin/service ${package} restart",
     require => Exec["enable-${package}"],
   }
 }

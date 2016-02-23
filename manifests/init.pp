@@ -1,3 +1,17 @@
+# Class: http_hardening
+#
+# This class installs Apache
+#
+# Parameters:
+#
+# Actions:
+#   - Install Apache
+#   - Manage Apache service
+#
+# Requires:
+#
+# Sample Usage:
+#
 class http_hardening (
   $apache2                        = $::http_hardening::params::apache2,
   $nginx                          = $::http_hardening::params::nginx,
