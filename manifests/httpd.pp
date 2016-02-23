@@ -5,18 +5,19 @@
 #
 # Parameters:
 # => local params (not modified)
+#
 # - $package represents httpd service name
+#
 # - $headers represents the name of file with secure http
 #   headers configuration
+#
 # - headers_dir represents the base directory configuration
 #   of $headers file#
+#
 # => other Parameters see http_hardening::params class
 #
 # Actions:
 #   - Enable and manage secure headers on httpd instance
-#
-# Requires:
-#   - Httpd web server up and running
 #
 class http_hardening::httpd {
 

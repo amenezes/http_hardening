@@ -11,9 +11,6 @@
 #   * apache2 / httpd
 #   * nginx
 #
-# Requires:
-#   - Some web server supported up and running
-#
 class http_hardening (
   $apache2                        = $::http_hardening::params::apache2,
   $nginx                          = $::http_hardening::params::nginx,

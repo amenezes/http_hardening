@@ -6,19 +6,21 @@
 # Parameters:
 # => local params (not modified)
 # - $package represents apache2 service name
+#
 # - $base_file represents main apache2 configuration file
+#
 # - $base_dir  represents apache2 base configuration directory
+#
 # - $headers represents the name of file with
-# secure http headers configuration
+#   secure http headers configuration
+#
 # - headers_dir represents the base directory
-# configuration of $headers file
+#   configuration of $headers file
+#
 # => other Parameters see http_hardening::params class
 #
 # Actions:
 #   - Enable and manage secure headers on apache2 instance
-#
-# Requires:
-#   - Apache2 web server up and running
 #
 class http_hardening::apache2 {
 

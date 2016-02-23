@@ -9,7 +9,9 @@ $ sudo puppet module install amenezes-http_hardening
 </code>
 </pre>
 <h5>Use</h5>
-* Basic usage for apache2 (Debian like distros) and httpd (RedHat like distros). This will enable mod_headers and set some secure http headers.
+* Basic usage for apache2 (Debian like distros) and
+  httpd (RedHat like distros).
+  This will enable mod_headers and set some secure http headers.
 <pre>
 <code>
 class { 'http_hardening':
@@ -24,8 +26,11 @@ httpd => true,
 }
 </code>
 </pre>
+<strong>notice: RedHat (like distros) users eventually
+must allow mod_headers on selinux.</strong>
 
-* Basic usage on nginx. This feature it's in beta stage currently.
+* Basic usage on nginx.
+  This feature it's in beta stage currently.
 <pre>
 <code>
 class { 'http_hardening':
@@ -34,7 +39,8 @@ nginx => true,
 </code>
 </pre>
 
-* Custom configuration on apache2 (Debian like distros) or httpd (RedHat like distros).
+* Custom configuration on apache2 (Debian like distros)
+  or httpd (RedHat like distros).
 <pre>
 <code>
 class { 'http_hardening':
@@ -54,7 +60,8 @@ x_xss_protection => '1; mode=block',
 </code>
 </pre>
 
-* Custom configuration on nginx. This feature it's in beta stage currently.
+* Custom configuration on nginx.
+  This feature it's in beta stage currently.
 <pre>
 <code>
 class { 'http_hardening':
