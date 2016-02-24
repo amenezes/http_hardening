@@ -55,10 +55,12 @@ class http_hardening::nginx {
     ensure  => file,
     path    => "${headers_dir}/${headers}",
     content => template("http_hardening/${package}-${headers}.erb"),
-    notify  => Exec['restart'],
+    notify  => Service[$package],
   }
 
-  exec { 'restart':
-    command => $srv_restart_command,
+  service { $package:
+    ensure  => running,
+    restart => '',
   }
+
 }

@@ -22,7 +22,8 @@ class http_hardening::lighttpd {
   include http_hardening
 
   case $::osfamily {
-    /^(Debian|RedHat)$/: {
+    #/^(Debian|RedHat)$/: {
+    'debian': {
       $package            = 'lighttpd'
       $headers            = 'headers.conf'
       $conf_enabled_dir   = "/etc/${package}/conf-enabled"
