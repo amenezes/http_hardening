@@ -1,24 +1,60 @@
 {
   "name": "amenezes-http_hardening",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": "amenezes",
-  "license": "Apache License, Version 2.0",
   "summary": "Puppet module to enable and manage http secure headers.",
+  "license": "Apache License, Version 2.0",
   "source": "http://github.com/amenezes/http_hardening",
   "project_page": "http://github.com/amenezes/http_hardening",
   "issues_url": "https://github.com/amenezes/http_hardening/issues",
-  "tags": ["hardening", "http", "apache", "nginx", "httpd", "lighttpd"],
-  "operatingsystem_support": [
-    { "operatingsystem":"Debian", "operatingsystemrelease": ["6", "7", "8"] },
-    { "operatingsystem":"Ubuntu", "operatingsystemrelease": ["14.04"] },
-    { "operatingsystem":"RedHat", "operatingsystemrelease": ["5", "6", "7"] },
-    { "operatingsystem":"CentOS", "operatingsystemrelease": ["5", "6", "7"] },
-    { "operatingsystem":"Fedora", "operatingsystemrelease": ["22", "23"] }
-  ],
   "dependencies": [
+    {"name":"puppetlabs/stdlib","version_requirement":">= 3.2.0 < 5.0.0"}
+  ],
+  "tags": [
+    "hardening",
+    "http",
+    "apache",
+    "nginx",
+    "httpd",
+    "lighttpd"
+  ],
+  "operatingsystem_support": [
     {
-      "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 3.2.0 < 5.0.0"
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "6",
+        "7",
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "14.04"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "5",
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "5",
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Fedora",
+      "operatingsystemrelease": [
+        "22",
+        "23"
+      ]
     }
   ],
   "requirements": [

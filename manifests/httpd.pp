@@ -38,8 +38,8 @@ class http_hardening::httpd {
   $x_frame_options            = $http_hardening::x_frame_options
   $x_xss_protection           = $http_hardening::x_xss_protection
   $content_security_policy    = $http_hardening::content_security_policy
-  $public_key_pins            = $http_hardening::params::public_key_pins
-  $strict_transport_security  = $http_hardening::params::strict_transport_security
+  $public_key_pins            = $http_hardening::public_key_pins
+  $strict_transport_security  = $http_hardening::strict_transport_security
 
   validate_string($x_content_type_options)
   validate_string($x_frame_options)
@@ -52,11 +52,10 @@ class http_hardening::httpd {
     ensure  => file,
     path    => "${headers_dir}/${headers}",
     content => template("http_hardening/apache-${headers}.erb"),
-    notify  => Service[$package],
+    notify  => Class['::http_hardening::service'],
   }
 
-  service { $package:
-    ensure  => running,
-    restart => '',
+  class { '::http_hardening::service':
+    package => $package,
   }
 }

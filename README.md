@@ -30,11 +30,20 @@ httpd => true,
 must allow mod_headers on selinux.</strong>
 
 * Basic usage on nginx.
-  This feature it's in beta stage currently.
 <pre>
 <code>
 class { 'http_hardening':
 nginx => true,
+}
+</code>
+</pre>
+
+</pre>
+* Basic usage on lighttpd.
+<pre>
+<code>
+class { 'http_hardening':
+lighttpd => true,
 }
 </code>
 </pre>
@@ -61,11 +70,21 @@ x_xss_protection => '1; mode=block',
 </pre>
 
 * Custom configuration on nginx.
-  This feature it's in beta stage currently.
 <pre>
 <code>
 class { 'http_hardening':
 nginx => true,
+x_frame_options  => 'SAMEORIGIN',
+x_xss_protection => '1; mode=block',
+}
+</code>
+</pre>
+
+* Custom configuration on lighttpd.
+<pre>
+<code>
+class { 'http_hardening':
+lighttpd => true,
 x_frame_options  => 'SAMEORIGIN',
 x_xss_protection => '1; mode=block',
 }

@@ -20,26 +20,16 @@
 class http_hardening::lighttpd {
 
   include http_hardening
-
-  case $::osfamily {
-    #/^(Debian|RedHat)$/: {
-    'debian': {
-      $package            = 'lighttpd'
-      $headers            = 'headers.conf'
-      $conf_enabled_dir   = "/etc/${package}/conf-enabled"
-      $conf_available_dir = "/etc/${package}/conf-available"
-    }
-    default: {
-      fail("Unsupported osfamily ${::osfamily}")
-    }
-  }
-
+  
+  $package = 'lighttpd'
+  $headers = 'headers.conf'
+  
   $x_content_type_options     = $http_hardening::x_content_type_options
   $x_frame_options            = $http_hardening::x_frame_options
   $x_xss_protection           = $http_hardening::x_xss_protection
   $content_security_policy    = $http_hardening::content_security_policy
-  $public_key_pins            = $http_hardening::params::public_key_pins
-  $strict_transport_security  = $http_hardening::params::strict_transport_security
+  $public_key_pins            = $http_hardening::public_key_pins
+  $strict_transport_security  = $http_hardening::strict_transport_security
 
   validate_string($x_content_type_options)
   validate_string($x_frame_options)
@@ -48,22 +38,45 @@ class http_hardening::lighttpd {
   validate_string($public_key_pins)
   validate_string($strict_transport_security)
 
-  file { $headers:
-    ensure  => file,
-    path    => "${conf_available_dir}/15-${headers}",
-    content => template("http_hardening/${package}-${headers}.erb"),
-    notify  => File["${conf_enabled_dir}/${headers}"],
+  case $::osfamily {
+    'debian': {
+      $conf_enabled_dir   = "/etc/${package}/conf-enabled"
+      $conf_available_dir = "/etc/${package}/conf-available"
+  
+      file { $headers:
+        ensure  => file,
+        path    => "${conf_available_dir}/15-${headers}",
+        content => template("http_hardening/${package}-${headers}.erb"),
+        notify  => File["${conf_enabled_dir}/${headers}"],
+      }
+
+      file { "${conf_enabled_dir}/${headers}":
+        ensure => link,
+        target => "${conf_available_dir}/15-${headers}",
+        notify => Class['::http_hardening::service'],
+      }
+    }
+    'redhat': {
+      $conf_enabled_dir   = "/etc/${package}/modules.conf"
+      $conf_available_dir = "/etc/${package}/conf.d"
+   
+      file { $headers:
+        ensure  => file,
+        path    => "${conf_available_dir}/${headers}",
+        content => template("http_hardening/${package}-${headers}.erb"),
+        notify  => Class['::http_hardening::service'],
+      }->
+      file_line { $conf_enabled_dir:
+        path => $conf_enabled_dir,
+        line => "include \"conf.d/${headers}\"",
+      }
+    }
+    default: {
+      fail("Unsupported osfamily ${::osfamily}")
+    }
   }
 
-  file { "${conf_enabled_dir}/${headers}":
-    ensure => link,
-    target => "${conf_available_dir}/15-${headers}",
-    notify => Service[$package],
+  class { '::http_hardening::service':
+    package => $package,
   }
-
-  service { $package:
-    ensure  => running,
-    restart => '',
-  }
-
 }

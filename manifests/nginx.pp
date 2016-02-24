@@ -24,25 +24,13 @@ class http_hardening::nginx {
   $package     = 'nginx'
   $headers     = 'headers.conf'
   $headers_dir = "/etc/${package}/conf.d"
-
-  case $::osfamily {
-    'redhat': {
-      $srv_restart_command = "/usr/bin/systemctl restart ${package}"
-    }
-    'debian': {
-      $srv_restart_command = "/usr/bin/service ${package} restart"
-    }
-    default: {
-      fail("Unsupported osfamily ${::osfamily}")
-    }
-  }
-
+  
   $x_content_type_options     = $http_hardening::x_content_type_options
   $x_frame_options            = $http_hardening::x_frame_options
   $x_xss_protection           = $http_hardening::x_xss_protection
   $content_security_policy    = $http_hardening::content_security_policy
-  $public_key_pins            = $http_hardening::params::public_key_pins
-  $strict_transport_security  = $http_hardening::params::strict_transport_security
+  $public_key_pins            = $http_hardening::public_key_pins
+  $strict_transport_security  = $http_hardening::strict_transport_security
 
   validate_string($x_content_type_options)
   validate_string($x_frame_options)
@@ -51,16 +39,22 @@ class http_hardening::nginx {
   validate_string($public_key_pins)
   validate_string($strict_transport_security)
 
-  file { $headers:
-    ensure  => file,
-    path    => "${headers_dir}/${headers}",
-    content => template("http_hardening/${package}-${headers}.erb"),
-    notify  => Service[$package],
-  }
+  case $::osfamily {
+    /^(Debian|RedHat)$/:{
+      file { $headers:
+        ensure  => file,
+        path    => "${headers_dir}/${headers}",
+        content => template("http_hardening/${package}-${headers}.erb"),
+        notify  => Class['::http_hardening::service'],
+      }
 
-  service { $package:
-    ensure  => running,
-    restart => '',
+      class { '::http_hardening::service':
+        package => $package,
+      }
+    }
+    default: {
+      fail("Unsupported osfamily ${::osfamily}")
+    }
   }
 
 }
