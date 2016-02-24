@@ -44,7 +44,7 @@ add_header X-XSS-Protection "<%= @x_xss_protection %>";
 # certain web server to prevent MITM attacks with forged certificates.
 # Requires mod_headers to be enabled.
 #
-add_header X-XSS-Protection "<%= @public_key_pins %>";
+add_header Public-Key-Pins "<%= @public_key_pins %>";
 <% end %>
 
 <% unless @strict_transport_security.empty? -%>
@@ -56,5 +56,5 @@ add_header X-XSS-Protection "<%= @public_key_pins %>";
 # ignore SSL negotiation warnings.
 # Requires mod_headers to be enabled.
 #
-add_header X-XSS-Protection "<%= @strict_transport_security %>";
+add_header Strict-Transport-Security "<%= @strict_transport_security %>";
 <% end %>

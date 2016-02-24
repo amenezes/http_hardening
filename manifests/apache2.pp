@@ -57,7 +57,7 @@ class http_hardening::apache2 {
     ensure  => file,
     path    => "${headers_dir}/${headers}",
     content => template("http_hardening/apache-${headers}.erb"),
-    notify  => Exec['restart'],
+    notify  => Service[$package],
   }->
   file_line { "${base_dir}/${base_file}":
     path => "${base_dir}/${base_file}",
@@ -69,8 +69,8 @@ class http_hardening::apache2 {
     before  => File[$headers],
   }
 
-  exec { 'restart':
-    command => "/usr/sbin/service ${package} restart",
-    require => Exec["enable-${package}"],
+  service { $package:
+    ensure  => running,
+    restart => '',
   }
 }

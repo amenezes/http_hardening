@@ -49,6 +49,7 @@ class http_hardening::params {
   $apache2                   = false
   $httpd                     = false
   $nginx                     = false
+  $lighttpd                  = false
   $x_frame_options           = 'DENY'
   $x_content_type_options    = 'nosniff'
   $x_xss_protection          = '1; mode=block'

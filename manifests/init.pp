@@ -15,6 +15,7 @@ class http_hardening (
   $apache2                        = $::http_hardening::params::apache2,
   $nginx                          = $::http_hardening::params::nginx,
   $httpd                          = $::http_hardening::params::httpd,
+  $lighttpd                       = $::http_hardening::params::lighttpd,
   $x_frame_options                = $::http_hardening::params::x_frame_options,
   $x_content_type_options         = $::http_hardening::params::x_content_type_options,
   $content_security_policy        = $::http_hardening::params::content_security_policy,
@@ -34,6 +35,10 @@ class http_hardening (
   elsif $nginx {
     validate_bool($nginx)
     include ::http_hardening::nginx
+  }
+  elsif $lighttpd {
+    validate_bool($lighttpd)
+    include ::http_hardening::lighttpd
   }
   else {
     fail('[*] web server not supported!')

@@ -1,33 +1,32 @@
-# Class: http_hardening::httpd
+# Class: http_hardening::lighttpd
 #
-# This class manage secure headers on httpd
-# instance in RedHat like distros.
+# This class manage secure headers on lighttpd instance.
 #
 # Parameters:
 # => local params (not modified)
+# - $package represents lighttpd service name
 #
-# - $package represents httpd service name
-#
-# - $headers represents the name of file with secure http
+#- $headers represents the name of file with secure http
 #   headers configuration
 #
 # - headers_dir represents the base directory configuration
-#   of $headers file#
+#   of $headers file
 #
 # => other Parameters see http_hardening::params class
 #
 # Actions:
-#   - Enable and manage secure headers on httpd instance
+#   - enabled and manage secure headers on lighttpd instance
 #
-class http_hardening::httpd {
+class http_hardening::lighttpd {
 
   include http_hardening
 
   case $::osfamily {
-    'redhat': {
-      $package     = 'httpd'
-      $headers     = 'headers.conf'
-      $headers_dir = "/etc/${package}/conf.d"
+    /^(Debian|RedHat)$/: {
+      $package            = 'lighttpd'
+      $headers            = 'headers.conf'
+      $conf_enabled_dir   = "/etc/${package}/conf-enabled"
+      $conf_available_dir = "/etc/${package}/conf-available"
     }
     default: {
       fail("Unsupported osfamily ${::osfamily}")
@@ -50,13 +49,20 @@ class http_hardening::httpd {
 
   file { $headers:
     ensure  => file,
-    path    => "${headers_dir}/${headers}",
-    content => template("http_hardening/apache-${headers}.erb"),
-    notify  => Service[$package],
+    path    => "${conf_available_dir}/15-${headers}",
+    content => template("http_hardening/${package}-${headers}.erb"),
+    notify  => File["${conf_enabled_dir}/${headers}"],
+  }
+
+  file { "${conf_enabled_dir}/${headers}":
+    ensure => link,
+    target => "${conf_available_dir}/15-${headers}",
+    notify => Service[$package],
   }
 
   service { $package:
     ensure  => running,
     restart => '',
   }
+
 }
