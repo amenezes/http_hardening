@@ -21,10 +21,9 @@ class http_hardening::nginx {
 
   include http_hardening
 
-  $package     = 'nginx'
-  $headers     = 'headers.conf'
-  $headers_dir = "/etc/${package}/conf.d"
-  
+  $package                    = 'nginx'
+  $headers                    = 'headers.conf'
+  $headers_dir                = "/etc/${package}/conf.d"
   $x_content_type_options     = $http_hardening::x_content_type_options
   $x_frame_options            = $http_hardening::x_frame_options
   $x_xss_protection           = $http_hardening::x_xss_protection

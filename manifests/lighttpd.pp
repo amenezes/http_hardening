@@ -20,10 +20,9 @@
 class http_hardening::lighttpd {
 
   include http_hardening
-  
-  $package = 'lighttpd'
-  $headers = 'headers.conf'
-  
+
+  $package                    = 'lighttpd'
+  $headers                    = 'headers.conf'
   $x_content_type_options     = $http_hardening::x_content_type_options
   $x_frame_options            = $http_hardening::x_frame_options
   $x_xss_protection           = $http_hardening::x_xss_protection
@@ -42,7 +41,7 @@ class http_hardening::lighttpd {
     'debian': {
       $conf_enabled_dir   = "/etc/${package}/conf-enabled"
       $conf_available_dir = "/etc/${package}/conf-available"
-  
+
       file { $headers:
         ensure  => file,
         path    => "${conf_available_dir}/15-${headers}",
@@ -59,7 +58,7 @@ class http_hardening::lighttpd {
     'redhat': {
       $conf_enabled_dir   = "/etc/${package}/modules.conf"
       $conf_available_dir = "/etc/${package}/conf.d"
-   
+
       file { $headers:
         ensure  => file,
         path    => "${conf_available_dir}/${headers}",
