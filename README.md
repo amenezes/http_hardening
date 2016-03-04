@@ -20,10 +20,10 @@ on web servers.
 <h5>Standard options available:</h5>
 <pre>
 <code>
-  $apache2                   = boolean &lttrue|false&gt;
-  $httpd                     = boolean &lttrue|false&gt;
-  $nginx                     = boolean &lttrue|false&gt;
-  $lighttpd                  = boolean &lttrue|false&gt;
+  $apache2                   = boolean | true or false
+  $httpd                     = boolean | true or false
+  $nginx                     = boolean | true or false
+  $lighttpd                  = boolean | true or false
   $x_frame_options           = 'DENY'
   $x_content_type_options    = 'nosniff'
   $x_xss_protection          = '1; mode=block'
@@ -35,7 +35,7 @@ on web servers.
 Options relative to secure http headers will soon available on the
 <a href="https://github.com/amenezes/http_hardening/wiki">wiki</a>.</br>
 For now see:
-<a href="https://scotthelme.co.uk/hardening-your-http-response-headers/">securityheaders.io</a> |
+<a href="https://scotthelme.co.uk/hardening-your-http-response-headers/">securityheaders.io</a> | 
 in portuguese (pt_BR) see: <a href="https://goo.gl/M9vnpk">here</a>
 
 ## <h4>[Usage]</h4>
