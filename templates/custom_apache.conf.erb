@@ -1,0 +1,14 @@
+<%# Parameters used: -%>
+<%# @custom_headers => Represents the custom HTTP Headers related in site.pp -%>
+<%# @custom_param   => Custom directive allowed by mod_headers -%>
+<%# @custom_filter  => Custom filter of directive informed above -%>
+<%# @h[0]           => Custom HTTP Header -%>
+<%# @h[1]           => Custom HTTP Header value -%>
+<%- unless @custom_headers.nil? -%>
+<<%= @custom_param -%> "<%= @custom_filter -%>">
+<%- @custom_headers.each do |h| -%>
+  Header set <%= h[0] -%>: "<%= h[1] -%>"
+<%- end -%>
+</<%= @custom_param -%>>
+<%- end -%>
+<%# For more information see: man mod_headers | https://goo.gl/d5B2hm -%>

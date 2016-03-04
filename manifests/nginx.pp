@@ -1,6 +1,6 @@
 # Class: http_hardening::nginx
 #
-# This class manage secure headers on nginx instance.
+# This class manage secure http headers on nginx instance.
 #
 # Parameters:
 # => local params (not modified)
@@ -15,7 +15,7 @@
 # => other Parameters see http_hardening::params class
 #
 # Actions:
-#   - Enable and manage secure headers on nginx instance
+#   - Enable and manage secure http headers on nginx instance
 #
 class http_hardening::nginx {
 
@@ -43,7 +43,7 @@ class http_hardening::nginx {
       file { $headers:
         ensure  => file,
         path    => "${headers_dir}/${headers}",
-        content => template("http_hardening/${package}-${headers}.erb"),
+        content => template("http_hardening/${package}_${headers}.erb"),
         notify  => Class['::http_hardening::service'],
       }
 
@@ -52,8 +52,7 @@ class http_hardening::nginx {
       }
     }
     default: {
-      fail("Unsupported osfamily ${::osfamily}")
+      fail("[*] Unsupported osfamily ${::osfamily}")
     }
   }
-
 }

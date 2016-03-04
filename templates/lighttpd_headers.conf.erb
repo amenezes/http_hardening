@@ -1,23 +1,23 @@
 setenv.add-response-header = (
-  <% unless @x_content_type_options.empty? -%>
+  <%- unless @x_content_type_options.empty? -%>
   #
   # Setting this header will prevent MSIE from interpreting files as something
   # else than declared by the content type in the HTTP headers.
   # Requires mod_headers to be enabled.
   #
-  "X-Content-Type-Options" => "<%= @x_content_type_options %>",
-  <% end %>
+  "X-Content-Type-Options" => "<%= @x_content_type_options -%>",
+  <%- end -%>
 
-  <% unless @x_frame_options.empty? -%>
+  <%- unless @x_frame_options.empty? -%>
   #
   # Setting this header will prevent other sites from embedding pages from this
   # site as frames. This defends against clickjacking attacks.
   # Requires mod_headers to be enabled.
   #
-  "X-Frame-Options" => "<%= @x_frame_options %>",
-  <% end %>
+  "X-Frame-Options" => "<%= @x_frame_options -%>",
+  <%- end -%>
 
-  <% unless @content_security_policy.empty? -%>
+  <%- unless @content_security_policy.empty? -%>
   #
   # Content Security Policy requires careful tuning and precise definition
   # of the policy. If enabled, CSP has significant impact on the way browser
@@ -26,19 +26,19 @@ setenv.add-response-header = (
   # including Cross-site scripting and other cross-site injections.
   # Requires mod_headers to be enabled.
   #
-  "Content-Security-Policy" => "<%= @content_security_policy %>",
-  <% end %>
+  "Content-Security-Policy" => "<%= @content_security_policy -%>",
+  <%- end -%>
 
-  <% unless @x_xss_protection.empty? -%>
+  <%- unless @x_xss_protection.empty? -%>
   #
   # This header enables the Cross-site scripting (XSS) filter built into most
   # recent web browsers.
   # Requires mod_headers to be enabled.
   #
-  "X-XSS-Protection" => "<%= @x_xss_protection %>",
-  <% end %>
+  "X-XSS-Protection" => "<%= @x_xss_protection -%>",
+  <%- end -%>
 
-  <% unless @public_key_pins.empty? -%>
+  <%- unless @public_key_pins.empty? -%>
   #
   # The Public Key Pinning Extension for HTTP (HPKP) is a security header that
   # tells a web client to associate a specific cryptographic public key with a
@@ -46,9 +46,9 @@ setenv.add-response-header = (
   # Requires mod_headers to be enabled.
   #
   "Public-Key-Pins" => "<%= @public_key_pins %>",
-  <% end %>
+  <%- end -%>
 
-  <% unless @strict_transport_security.empty? -%>
+  <%- unless @strict_transport_security.empty? -%>
   #
   # HTTP Strict-Transport-Security (HSTS) enforces secure (HTTP over SSL/TLS)
   # connections to the server. This reduces impact of bugs in web applications
@@ -57,6 +57,6 @@ setenv.add-response-header = (
   # ignore SSL negotiation warnings.
   # Requires mod_headers to be enabled.
   #
-  "Strict-Transport-Security" => "<%= @strict_transport_security %>",
-  <% end %>
+  "Strict-Transport-Security" => "<%= @strict_transport_security -%>",
+  <%-end -%>
 )

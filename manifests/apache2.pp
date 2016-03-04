@@ -1,6 +1,6 @@
 # Class: http_hardening::apache2
 #
-# This class manage secure headers on apache2
+# This class manage secure http headers on apache2
 # instance in Debian like distros.
 #
 # Parameters:
@@ -20,7 +20,7 @@
 # => other Parameters see http_hardening::params class
 #
 # Actions:
-#   - Enable and manage secure headers on apache2 instance
+#   - Enable and manage secure http headers on apache2 instance
 #
 class http_hardening::apache2 {
 
@@ -35,7 +35,7 @@ class http_hardening::apache2 {
       $headers_dir = "${base_dir}/conf-enabled"
     }
     default: {
-      fail("Unsupported osfamily ${::osfamily}")
+      fail("[*] Unsupported osfamily ${::osfamily}")
     }
   }
 
@@ -56,12 +56,12 @@ class http_hardening::apache2 {
   file { $headers:
     ensure  => file,
     path    => "${headers_dir}/${headers}",
-    content => template("http_hardening/apache-${headers}.erb"),
+    content => template("http_hardening/apache_${headers}.erb"),
     notify  => Class['::http_hardening::service'],
   }->
   file_line { "${base_dir}/${base_file}":
     path => "${base_dir}/${base_file}",
-    line => "Include ${headers_dir}/${headers}",
+    line => "Include ${headers_dir}/*.conf",
   }
 
   exec { "enable-${package}":
@@ -71,6 +71,12 @@ class http_hardening::apache2 {
 
   class { '::http_hardening::service':
     package => $package,
+  }
+
+  concat { "${headers_dir}/custom-${headers}":
+    ensure => present,
+    path   => "${headers_dir}/custom-${headers}",
+    notify => Class['::http_hardening::service'],
   }
 
 }

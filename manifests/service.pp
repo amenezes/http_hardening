@@ -1,6 +1,6 @@
 # Class: http_hardening::service
 #
-# This class manage secure headers on service instance.
+# This class manage instances of web server.
 #
 # Parameters:
 # => local params (not modified)
@@ -15,14 +15,14 @@
 # => other Parameters see http_hardening::params class
 #
 # Actions:
-#   - Enable and manage secure headers on service instance
+#   - Restart web server instance
 #
 class http_hardening::service (
   $package = undef,
 ) {
 
   if $package == undef {
-    fail("A valid package name must be set!")
+    fail('[*] A valid package name must be set!')
   } else {
     service { $package:
       ensure     => running,

@@ -1,6 +1,6 @@
 # Class: http_hardening::lighttpd
 #
-# This class manage secure headers on lighttpd instance.
+# This class manage secure http headers on lighttpd instance.
 #
 # Parameters:
 # => local params (not modified)
@@ -15,7 +15,7 @@
 # => other Parameters see http_hardening::params class
 #
 # Actions:
-#   - enabled and manage secure headers on lighttpd instance
+#   - enabled and manage secure http headers on lighttpd instance
 #
 class http_hardening::lighttpd {
 
@@ -45,7 +45,7 @@ class http_hardening::lighttpd {
       file { $headers:
         ensure  => file,
         path    => "${conf_available_dir}/15-${headers}",
-        content => template("http_hardening/${package}-${headers}.erb"),
+        content => template("http_hardening/${package}_${headers}.erb"),
         notify  => File["${conf_enabled_dir}/${headers}"],
       }
 
@@ -62,7 +62,7 @@ class http_hardening::lighttpd {
       file { $headers:
         ensure  => file,
         path    => "${conf_available_dir}/${headers}",
-        content => template("http_hardening/${package}-${headers}.erb"),
+        content => template("http_hardening/${package}_${headers}.erb"),
         notify  => Class['::http_hardening::service'],
       }->
       file_line { $conf_enabled_dir:
@@ -71,7 +71,7 @@ class http_hardening::lighttpd {
       }
     }
     default: {
-      fail("Unsupported osfamily ${::osfamily}")
+      fail("[*] Unsupported osfamily ${::osfamily}")
     }
   }
 

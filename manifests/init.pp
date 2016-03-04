@@ -10,6 +10,7 @@
 #   - Manage the inclusion of secure http headers on:
 #   * apache2 / httpd
 #   * nginx
+#   * lighttpd
 #
 class http_hardening (
   $apache2                        = $::http_hardening::params::apache2,

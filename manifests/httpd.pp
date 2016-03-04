@@ -17,7 +17,7 @@
 # => other Parameters see http_hardening::params class
 #
 # Actions:
-#   - Enable and manage secure headers on httpd instance
+#   - Enable and manage secure http headers on httpd instance
 #
 class http_hardening::httpd {
 
@@ -30,7 +30,7 @@ class http_hardening::httpd {
       $headers_dir = "/etc/${package}/conf.d"
     }
     default: {
-      fail("Unsupported osfamily ${::osfamily}")
+      fail("[*] Unsupported osfamily ${::osfamily}")
     }
   }
 
@@ -51,11 +51,18 @@ class http_hardening::httpd {
   file { $headers:
     ensure  => file,
     path    => "${headers_dir}/${headers}",
-    content => template("http_hardening/apache-${headers}.erb"),
+    content => template("http_hardening/apache_${headers}.erb"),
     notify  => Class['::http_hardening::service'],
   }
 
   class { '::http_hardening::service':
     package => $package,
   }
+
+  concat { "${headers_dir}/custom-${headers}":
+    ensure => present,
+    path   => "${headers_dir}/custom-${headers}",
+    notify => Class['::http_hardening::service'],
+  }
+
 }
