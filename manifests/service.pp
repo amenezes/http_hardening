@@ -3,19 +3,10 @@
 # This class manage instances of web server.
 #
 # Parameters:
-# => local params (not modified)
-# - $package represents service service name
-#
-#- $headers represents the name of file with secure http
-#   headers configuration
-#
-# - headers_dir represents the base directory configuration
-#   of $headers file
-#
-# => other Parameters see http_hardening::params class
+# - $package represents web server name
 #
 # Actions:
-#   - Restart web server instance
+#   - Restarts web server instance
 #
 class http_hardening::service (
   $package = undef,

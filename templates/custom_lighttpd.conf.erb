@@ -1,0 +1,15 @@
+<%# Parameters used: -%>
+<%# @custom_headers => Represents the custom HTTP Headers related in site.pp -%>
+<%# @custom_filter  => Custom filter of directive informed above -%>
+<%# @h[0]           => Custom HTTP Header -%>
+<%# @h[1]           => Custom HTTP Header value -%>
+<%- unless @custom_headers.nil? -%>
+$HTTP["url"] =~ "<%= @custom_filter -%>" {
+  setenv.add-response-header  = (
+<%- @custom_headers.each do |h| -%>
+    "<%= h[0] -%>" => "<%= h[1] -%>",
+<%- end -%>
+  )
+}
+<%- end -%>
+<%# For more information see: man mod_headers | https://goo.gl/d5B2hm -%>

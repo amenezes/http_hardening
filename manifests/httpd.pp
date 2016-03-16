@@ -4,15 +4,10 @@
 # instance in RedHat like distros.
 #
 # Parameters:
-# => local params (not modified)
-#
 # - $package represents httpd service name
 #
-# - $headers represents the name of file with secure http
-#   headers configuration
-#
-# - headers_dir represents the base directory configuration
-#   of $headers file#
+# - $headers_dir represents the base directory configuration
+#   of $conf_headers_file
 #
 # => other Parameters see http_hardening::params class
 #
@@ -26,7 +21,6 @@ class http_hardening::httpd {
   case $::osfamily {
     'redhat': {
       $package     = 'httpd'
-      $headers     = 'headers.conf'
       $headers_dir = "/etc/${package}/conf.d"
     }
     default: {
@@ -40,18 +34,13 @@ class http_hardening::httpd {
   $content_security_policy    = $http_hardening::content_security_policy
   $public_key_pins            = $http_hardening::public_key_pins
   $strict_transport_security  = $http_hardening::strict_transport_security
+  $conf_headers_file          = $http_hardening::conf_headers_file
+  $conf_custom_headers_file   = $http_hardening::conf_custom_headers_file
 
-  validate_string($x_content_type_options)
-  validate_string($x_frame_options)
-  validate_string($x_xss_protection)
-  validate_string($content_security_policy)
-  validate_string($public_key_pins)
-  validate_string($strict_transport_security)
-
-  file { $headers:
+  file { $conf_headers_file:
     ensure  => file,
-    path    => "${headers_dir}/${headers}",
-    content => template("http_hardening/apache_${headers}.erb"),
+    path    => "${headers_dir}/${conf_headers_file}",
+    content => template("http_hardening/apache_${conf_headers_file}.erb"),
     notify  => Class['::http_hardening::service'],
   }
 
@@ -59,9 +48,9 @@ class http_hardening::httpd {
     package => $package,
   }
 
-  concat { "${headers_dir}/custom-${headers}":
+  concat { "${headers_dir}/${conf_custom_headers_file}":
     ensure => present,
-    path   => "${headers_dir}/custom-${headers}",
+    path   => "${headers_dir}/${conf_custom_headers_file}",
     notify => Class['::http_hardening::service'],
   }
 

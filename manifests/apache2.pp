@@ -4,17 +4,13 @@
 # instance in Debian like distros.
 #
 # Parameters:
-# => local params (not modified)
 # - $package represents apache2 service name
 #
 # - $base_file represents main apache2 configuration file
 #
 # - $base_dir  represents apache2 base configuration directory
 #
-# - $headers represents the name of file with
-#   secure http headers configuration
-#
-# - headers_dir represents the base directory
+# - $headers_dir represents the base directory
 #   configuration of $headers file
 #
 # => other Parameters see http_hardening::params class
@@ -31,7 +27,6 @@ class http_hardening::apache2 {
       $package     = 'apache2'
       $base_file   = "${package}.conf"
       $base_dir    = "/etc/${package}"
-      $headers     = 'headers.conf'
       $headers_dir = "${base_dir}/conf-enabled"
     }
     default: {
@@ -45,18 +40,13 @@ class http_hardening::apache2 {
   $content_security_policy    = $http_hardening::content_security_policy
   $public_key_pins            = $http_hardening::public_key_pins
   $strict_transport_security  = $http_hardening::strict_transport_security
+  $conf_headers_file          = $http_hardening::conf_headers_file
+  $conf_custom_headers_file   = $http_hardening::conf_custom_headers_file
 
-  validate_string($x_content_type_options)
-  validate_string($x_frame_options)
-  validate_string($x_xss_protection)
-  validate_string($content_security_policy)
-  validate_string($public_key_pins)
-  validate_string($strict_transport_security)
-
-  file { $headers:
+  file { $conf_headers_file:
     ensure  => file,
-    path    => "${headers_dir}/${headers}",
-    content => template("http_hardening/apache_${headers}.erb"),
+    path    => "${headers_dir}/${conf_headers_file}",
+    content => template("http_hardening/apache_${conf_headers_file}.erb"),
     notify  => Class['::http_hardening::service'],
   }->
   file_line { "${base_dir}/${base_file}":
@@ -66,16 +56,16 @@ class http_hardening::apache2 {
 
   exec { "enable-${package}":
     command => '/usr/sbin/a2enmod headers',
-    before  => File[$headers],
+    before  => File[$conf_headers_file],
   }
 
   class { '::http_hardening::service':
     package => $package,
   }
 
-  concat { "${headers_dir}/custom-${headers}":
+  concat { "${headers_dir}/${conf_custom_headers_file}":
     ensure => present,
-    path   => "${headers_dir}/custom-${headers}",
+    path   => "${headers_dir}/${conf_custom_headers_file}",
     notify => Class['::http_hardening::service'],
   }
 

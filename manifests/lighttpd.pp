@@ -3,14 +3,14 @@
 # This class manage secure http headers on lighttpd instance.
 #
 # Parameters:
-# => local params (not modified)
 # - $package represents lighttpd service name
 #
-#- $headers represents the name of file with secure http
-#   headers configuration
+# - $conf_enabled_dir represents the link or include necessary to configure,
+#   secure http headers
 #
-# - headers_dir represents the base directory configuration
-#   of $headers file
+# - $conf_available_dir represents the path of file with secure http headers.
+#
+# - $concat_name represents the resource name of concat file
 #
 # => other Parameters see http_hardening::params class
 #
@@ -22,57 +22,81 @@ class http_hardening::lighttpd {
   include http_hardening
 
   $package                    = 'lighttpd'
-  $headers                    = 'headers.conf'
   $x_content_type_options     = $http_hardening::x_content_type_options
   $x_frame_options            = $http_hardening::x_frame_options
   $x_xss_protection           = $http_hardening::x_xss_protection
   $content_security_policy    = $http_hardening::content_security_policy
   $public_key_pins            = $http_hardening::public_key_pins
   $strict_transport_security  = $http_hardening::strict_transport_security
-
-  validate_string($x_content_type_options)
-  validate_string($x_frame_options)
-  validate_string($x_xss_protection)
-  validate_string($content_security_policy)
-  validate_string($public_key_pins)
-  validate_string($strict_transport_security)
+  $conf_headers_file          = $http_hardening::conf_headers_file
+  $conf_custom_headers_file   = $http_hardening::conf_custom_headers_file
 
   case $::osfamily {
     'debian': {
       $conf_enabled_dir   = "/etc/${package}/conf-enabled"
       $conf_available_dir = "/etc/${package}/conf-available"
+      $concat_name        = "${conf_available_dir}/15-${conf_custom_headers_file}"
+      $mod_setenv_config  = "/etc/${package}/${package}.conf"
 
-      file { $headers:
+      file { $conf_headers_file:
         ensure  => file,
-        path    => "${conf_available_dir}/15-${headers}",
-        content => template("http_hardening/${package}_${headers}.erb"),
-        notify  => File["${conf_enabled_dir}/${headers}"],
+        path    => "${conf_available_dir}/15-${conf_headers_file}",
+        content => template("http_hardening/${package}_${conf_headers_file}.erb"),
+        notify  => File["${conf_enabled_dir}/${conf_headers_file}"],
       }
 
-      file { "${conf_enabled_dir}/${headers}":
+      file { "${conf_enabled_dir}/${conf_headers_file}":
         ensure => link,
-        target => "${conf_available_dir}/15-${headers}",
+        target => "${conf_available_dir}/15-${conf_headers_file}",
+        notify => File["${conf_enabled_dir}/${conf_custom_headers_file}"],
+      }
+
+      file { "${conf_enabled_dir}/${conf_custom_headers_file}":
+        ensure => link,
+        target => $concat_name,
         notify => Class['::http_hardening::service'],
       }
     }
     'redhat': {
       $conf_enabled_dir   = "/etc/${package}/modules.conf"
       $conf_available_dir = "/etc/${package}/conf.d"
+      $concat_name        = "${conf_available_dir}/${conf_custom_headers_file}"
+      $mod_setenv_config  = $conf_enabled_dir
 
-      file { $headers:
+      file { $conf_headers_file:
         ensure  => file,
-        path    => "${conf_available_dir}/${headers}",
-        content => template("http_hardening/${package}_${headers}.erb"),
+        path    => "${conf_available_dir}/${conf_headers_file}",
+        content => template("http_hardening/${package}_${conf_headers_file}.erb"),
         notify  => Class['::http_hardening::service'],
       }->
-      file_line { $conf_enabled_dir:
-        path => $conf_enabled_dir,
-        line => "include \"conf.d/${headers}\"",
+      file_line { 'include_headers':
+        ensure => present,
+        path   => $conf_enabled_dir,
+        line   => "include \"conf.d/${conf_headers_file}\"",
+      }->
+      file_line { 'include_custom_headers':
+        ensure => present,
+        path   => $conf_enabled_dir,
+        line   => "include \"conf.d/${conf_custom_headers_file}\"",
       }
+
     }
     default: {
       fail("[*] Unsupported osfamily ${::osfamily}")
     }
+  }
+
+  file_line { 'enable_mod_setenv':
+    ensure => present,
+    path   => $mod_setenv_config,
+    line   => "\t\"mod_setenv\",",
+    after  => 'server.modules',
+  }
+
+  concat { $concat_name:
+    ensure => present,
+    path   => $concat_name,
+    notify => Class['::http_hardening::service'],
   }
 
   class { '::http_hardening::service':

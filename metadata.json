@@ -1,15 +1,15 @@
 {
   "name": "amenezes-http_hardening",
-  "version": "0.2.5",
-  "author": "amenezes",
-  "summary": "Puppet module to enable and manage secure http headers.",
+  "version": "0.2.6",
+  "author": "alexandre menezes",
+  "summary": "Puppet module to enable, configure and manage secure http headers",
   "license": "Apache-2.0",
   "source": "http://github.com/amenezes/http_hardening",
   "project_page": "http://github.com/amenezes/http_hardening",
   "issues_url": "https://github.com/amenezes/http_hardening/issues",
   "dependencies": [
     { "name":"puppetlabs/stdlib","version_requirement":">= 3.2.0 < 5.0.0" },
-    { "name":"puppetlabs/concat","version_requirement":">= 2.1.0" }
+    { "name":"puppetlabs/concat","version_requirement":">= 2.1.0 < 3.0.0" }
   ],
   "tags": [
     "apache",

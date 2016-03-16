@@ -12,6 +12,9 @@
 # - The $nginx represents option to enable and manage
 #   secure headers on nginx
 #
+# - The $lighttpd represents option to enable and manage
+#   secure headers on lighttpd
+#
 # - The $x_frame_options tells the browser whether you
 #   want to allow your site to be framed or not.
 #   By preventing a browser from framing your site you
@@ -30,7 +33,7 @@
 #
 # - The $x_xss_protection sets the configuration for
 #   the cross-site scripting filters built into most browsers.
-#   The best configuration is "X-XSS-Protection: 1; mode=block".
+#   The best configuration is "X-XSS-Pvaliate_arrayrotection: 1; mode=block".
 #
 # - The $public_key_pins extension for HTTP (HPKP) is a security
 #   header that tells a web client to associate a specific
@@ -44,6 +47,13 @@
 #   against Man-in-the-middle attacks. HSTS also disables the
 #   ability for user's to ignore SSL negotiation warnings.
 #
+# - The $conf_headers_file represents the default file
+#   of custom secure http headers
+#
+# - The $conf_custom_headers_file represents the default file
+#   of custom secure http headers
+#
+#
 class http_hardening::params {
 
   $apache2                   = false
@@ -56,5 +66,8 @@ class http_hardening::params {
   $content_security_policy   = ''
   $public_key_pins           = ''
   $strict_transport_security = ''
+
+  $conf_headers_file         = 'headers.conf'
+  $conf_custom_headers_file  = "custom-${conf_headers_file}"
 
 }
