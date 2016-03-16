@@ -41,19 +41,15 @@ class http_hardening (
   validate_string($conf_custom_headers_file)
 
   if $apache2 {
-    validate_bool($apache2)
     include ::http_hardening::apache2
   }
   elsif $httpd {
-    validate_bool($httpd)
     include ::http_hardening::httpd
   }
   elsif $nginx {
-    validate_bool($nginx)
     include ::http_hardening::nginx
   }
   elsif $lighttpd {
-    validate_bool($lighttpd)
     include ::http_hardening::lighttpd
   }
   else {
