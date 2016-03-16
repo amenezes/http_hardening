@@ -140,7 +140,10 @@ http_hardening::custom_apache { 'custom_config_1':
     'X-XSS-Protection' => '0',
   }
 }
-
+</code>
+</pre>
+<pre>
+<code>
 http_hardening::custom_apache { 'custom_config_2':
   custom_filter  => '\.(js|css)$',
   custom_headers => {
@@ -161,7 +164,10 @@ http_hardening::custom_lighttpd { 'custom_config_1':
     'X-XSS-Protection' => '0',
   }
 }
-
+</code>
+</pre>
+<pre>
+<code>
 http_hardening::custom_lighttpd { 'custom_config_2':
   custom_filter  => '\.(js|css)$',
   custom_headers => {
