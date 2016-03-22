@@ -11,7 +11,7 @@
 #
 
 # Debian like distros
-class { 'http_hardening': }
+class { 'http_hardening':
   apache2 => true,
 }
 
@@ -22,7 +22,7 @@ class { 'http_hardening':
 }
 
 # RedHat like distros
-class { 'http_hardening': }
+class { 'http_hardening':
   httpd => true,
 }
 

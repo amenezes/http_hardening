@@ -37,7 +37,6 @@ define http_hardening::custom_apache (
 
   $conf_custom_headers_file = $http_hardening::conf_custom_headers_file
 
-  validate_string($conf_custom_headers_file)
   validate_string($custom_param)
   validate_string($custom_filter)
   validate_hash($custom_headers)

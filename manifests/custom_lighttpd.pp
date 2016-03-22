@@ -34,20 +34,18 @@ define http_hardening::custom_lighttpd (
 
   include http_hardening
 
-  $package                  = 'lighttpd'
   $conf_custom_headers_file = $http_hardening::conf_custom_headers_file
 
-  validate_string($conf_custom_headers_file)
   validate_string($custom_filter)
   validate_hash($custom_headers)
 
   case $::osfamily {
     'redhat': {
-      $headers_dir   = "/etc/${package}/conf.d"
+      $headers_dir   = '/etc/lighttpd/conf.d'
       $target_concat = "${headers_dir}/${conf_custom_headers_file}"
     }
     'debian': {
-      $headers_dir   = "/etc/${package}/conf-available"
+      $headers_dir   = '/etc/lighttpd/conf-available'
       $target_concat = "${headers_dir}/15-${conf_custom_headers_file}"
     }
     default: {
