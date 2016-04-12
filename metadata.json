@@ -1,6 +1,6 @@
 {
   "name": "amenezes-http_hardening",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "author": "alexandre menezes",
   "summary": "Puppet module to enable, configure and manage secure http headers",
   "license": "Apache-2.0",

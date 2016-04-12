@@ -1,41 +1,32 @@
 setenv.add-response-header = (
-  <%- unless @x_content_type_options.empty? -%>
-  #
-  # Setting this header will prevent MSIE from interpreting files as something
-  # else than declared by the content type in the HTTP headers.
-  # Requires mod_headers to be enabled.
-  #
-  "X-Content-Type-Options" => "<%= @x_content_type_options -%>",
-  <%- end -%>
-
   <%- unless @x_frame_options.empty? -%>
   #
   # Setting this header will prevent other sites from embedding pages from this
   # site as frames. This defends against clickjacking attacks.
-  # Requires mod_headers to be enabled.
   #
   "X-Frame-Options" => "<%= @x_frame_options -%>",
   <%- end -%>
 
-  <%- unless @content_security_policy.empty? -%>
+  <%- unless @x_content_type_options.empty? -%>
   #
-  # Content Security Policy requires careful tuning and precise definition
-  # of the policy. If enabled, CSP has significant impact on the way browser
-  # renders pages (e.g., inline JavaScript disabled by default and must be
-  # explicitly allowed in policy). CSP prevents a wide range of attacks,
-  # including Cross-site scripting and other cross-site injections.
-  # Requires mod_headers to be enabled.
+  # Setting this header will prevent MSIE from interpreting files as something
+  # else than declared by the content type in the HTTP headers.
   #
-  "Content-Security-Policy" => "<%= @content_security_policy -%>",
+  "X-Content-Type-Options" => "<%= @x_content_type_options -%>",
   <%- end -%>
 
   <%- unless @x_xss_protection.empty? -%>
   #
   # This header enables the Cross-site scripting (XSS) filter built into most
   # recent web browsers.
-  # Requires mod_headers to be enabled.
   #
   "X-XSS-Protection" => "<%= @x_xss_protection -%>",
+  <%- end -%>
+
+  <%- unless @x_robots_tag.empty? -%>
+  #
+  #
+  "X-Robots-Tag" => "<%= @x_robots_tag -%>",
   <%- end -%>
 
   <%- unless @public_key_pins.empty? -%>
@@ -43,7 +34,6 @@ setenv.add-response-header = (
   # The Public Key Pinning Extension for HTTP (HPKP) is a security header that
   # tells a web client to associate a specific cryptographic public key with a
   # certain web server to prevent MITM attacks with forged certificates.
-  # Requires mod_headers to be enabled.
   #
   "Public-Key-Pins" => "<%= @public_key_pins %>",
   <%- end -%>
@@ -55,8 +45,37 @@ setenv.add-response-header = (
   # leaking session data through cookies and external links and defends against
   # Man-in-the-middle attacks. HSTS also disables the ability for user's to
   # ignore SSL negotiation warnings.
-  # Requires mod_headers to be enabled.
   #
   "Strict-Transport-Security" => "<%= @strict_transport_security -%>",
   <%-end -%>
+
+  <%- unless @content_security_policy.empty? -%>
+  #
+  # Content Security Policy requires careful tuning and precise definition
+  # of the policy. If enabled, CSP has significant impact on the way browser
+  # renders pages (e.g., inline JavaScript disabled by default and must be
+  # explicitly allowed in policy). CSP prevents a wide range of attacks,
+  # including Cross-site scripting and other cross-site injections.
+  #
+  "Content-Security-Policy" => "<%= @content_security_policy -%>",
+  <%- end -%>
+
+  <%- unless @content_security_policy_report_only.empty? -%>
+  #
+  #
+  "Content-Security-Policy-Report-Only" => "<%= @content_security_policy_report_only -%>",
+  <%- end -%>
+
+  <%- unless @x_content_security_policy.empty? -%>
+  #
+  #
+  "X-Content-Security-Policy" => "<%= @x_content_security_policy -%>",
+  <%- end -%>
+
+  <%- unless @x_webkit_csp.empty? -%>
+  #
+  #
+  "X-WebKit-CSP" => "<%= @x_webkit_csp -%>",
+  <%- end -%>
+
 )

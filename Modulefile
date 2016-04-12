@@ -1,5 +1,5 @@
 name    'amenezes-http_hardening'
-version '0.2.6'
+version '0.2.7'
 source 'http://github.com/amenezes/http_hardening'
 author 'amenezes'
 license 'Apache-2.0'

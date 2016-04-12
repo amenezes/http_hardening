@@ -21,15 +21,19 @@ class http_hardening::lighttpd {
 
   include http_hardening
 
-  $package                    = 'lighttpd'
-  $x_content_type_options     = $http_hardening::x_content_type_options
-  $x_frame_options            = $http_hardening::x_frame_options
-  $x_xss_protection           = $http_hardening::x_xss_protection
-  $content_security_policy    = $http_hardening::content_security_policy
-  $public_key_pins            = $http_hardening::public_key_pins
-  $strict_transport_security  = $http_hardening::strict_transport_security
-  $conf_headers_file          = $http_hardening::conf_headers_file
-  $conf_custom_headers_file   = $http_hardening::conf_custom_headers_file
+  $package                             = 'lighttpd'
+  $x_frame_options                     = $http_hardening::x_frame_options
+  $x_content_type_options              = $http_hardening::x_content_type_options
+  $x_xss_protection                    = $http_hardening::x_xss_protection
+  $x_robots_tag                        = $http_hardening::x_robots_tag
+  $public_key_pins                     = $http_hardening::public_key_pins
+  $strict_transport_security           = $http_hardening::strict_transport_security
+  $content_security_policy             = $http_hardening::content_security_policy
+  $content_security_policy_report_only = $http_hardening::content_security_policy_report_only
+  $x_content_security_policy           = $http_hardening::x_content_security_policy
+  $x_webkit_csp                        = $http_hardening::x_webkit_csp
+  $conf_headers_file                   = $http_hardening::conf_headers_file
+  $conf_custom_headers_file            = $http_hardening::conf_custom_headers_file
 
   case $::osfamily {
     'debian': {
@@ -79,7 +83,6 @@ class http_hardening::lighttpd {
         path   => $conf_enabled_dir,
         line   => "include \"conf.d/${conf_custom_headers_file}\"",
       }
-
     }
     default: {
       fail("[*] Unsupported osfamily ${::osfamily}")

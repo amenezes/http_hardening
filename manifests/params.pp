@@ -55,19 +55,20 @@
 #
 #
 class http_hardening::params {
-
-  $apache2                   = false
-  $httpd                     = false
-  $nginx                     = false
-  $lighttpd                  = false
-  $x_frame_options           = 'DENY'
-  $x_content_type_options    = 'nosniff'
-  $x_xss_protection          = '1; mode=block'
-  $content_security_policy   = ''
-  $public_key_pins           = ''
-  $strict_transport_security = ''
-
-  $conf_headers_file         = 'headers.conf'
-  $conf_custom_headers_file  = "custom-${conf_headers_file}"
-
+  $apache2                             = false
+  $httpd                               = false
+  $nginx                               = false
+  $lighttpd                            = false
+  $x_frame_options                     = 'DENY'
+  $x_content_type_options              = 'nosniff'
+  $x_xss_protection                    = '1; mode=block'
+  $x_robots_tag                        = ''
+  $public_key_pins                     = ''
+  $strict_transport_security           = ''
+  $content_security_policy             = ''
+  $content_security_policy_report_only = ''
+  $x_content_security_policy           = ''
+  $x_webkit_csp                        = ''
+  $conf_headers_file                   = 'headers.conf'
+  $conf_custom_headers_file            = "custom-${conf_headers_file}"
 }
