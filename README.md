@@ -184,10 +184,8 @@ http_hardening::custom_lighttpd { 'custom_config_2':
 ### 5. Contact <a id="contact"></a>
 author: alexandre menezes  
 twitter: [@ale_menezes][4]  
-[owasp: secure headers project forum][5]
 
 [1]:https://www.owasp.org/index.php?title=OWASP_Secure_Headers_Project
 [2]:https://goo.gl/M9vnpk
 [3]:https://goo.gl/d5B2hm
 [4]:https://www.twitter.com/ale_menezes
-[5]:https://groups.google.com/forum/#!forum/owasp-secure-headers-project
